@@ -24,12 +24,11 @@ This are few examples there are many like this
 
 here is how you would use this Library
 
-
 temperature=28
 humidity=66
 
 
-# ==============================  IFTTT  =====================================
+# ==============  IFTTT  =============
 
 
 iftt_k = 'YOUR KEY GOES HERE'
@@ -39,4 +38,79 @@ ob1 = IfTTT(eventname=feed, key=iftt_k)
 
 ob1.iftt_post(data1=temperature,data2=humidity)
 
-# ================== Latitude and Longitude ===================================
+# ======= Latitude and Longitude ========
+
+
+
+
+
+
+<img width="1320" alt="Screen Shot 2019-03-16 at 5 45 10 PM" src="https://user-images.githubusercontent.com/39345855/54482114-d749e200-4814-11e9-95ac-719c2b1bfd89.png">
+
+
+how to use with this 
+
+
+"""
+temperature=28
+humidity=66
+
+
+# ==================== Thingspeak ========
+w_key = 'YOUR WRITE  KEY GOES HERE'
+r_key = 'YOUR READ  KEY GOES HERE''
+channel_id = '12345'
+
+ob = Thingspeak(write_api_key=w_key, read_api_key=r_key,channel_id=channel_id)
+
+ob.post_cloud(value1=temperature,value2=humidity
+
+# ======================================
+
+<img width="697" alt="Screen Shot 2019-03-16 at 5 47 19 PM" src="https://user-images.githubusercontent.com/39345855/54482120-f34d8380-4814-11e9-9d1f-8e55817beed3.png">
+
+
+how to get location 
+
+# ======================================
+ob2 = Location()
+lat,long = ob2.get_locations()
+print('{} Latitude '.format(lat))
+print("{} Longitude ".format(long))
+# ======================================
+
+Easy Right ?
+
+How do I get date and time ?
+
+Soumil what about weather ? yes we have that as well
+
+<img width="448" alt="Screen Shot 2019-03-16 at 5 50 10 PM" src="https://user-images.githubusercontent.com/39345855/54482131-111ae880-4815-11e9-95e0-4a6fc57e8ac2.png">
+
+
+ =============== Weather Details  ==============================================
+
+key ='ce45a4d1079e68c410cd42a3054d00e1'
+city = 'Bridgeport'
+
+ob4 = Weather_details(key=key,city=city)
+long,lat,humidity,wind_speed = ob4.get_weather_data()
+
+
+# ================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
