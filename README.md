@@ -41,10 +41,6 @@ ob1.iftt_post(data1=temperature,data2=humidity)
 # ======= Latitude and Longitude ========
 
 
-
-
-
-
 <img width="1320" alt="Screen Shot 2019-03-16 at 5 45 10 PM" src="https://user-images.githubusercontent.com/39345855/54482114-d749e200-4814-11e9-95ac-719c2b1bfd89.png">
 
 
@@ -74,9 +70,13 @@ how to get location
 
 # ======================================
 ob2 = Location()
+
 lat,long = ob2.get_locations()
+
 print('{} Latitude '.format(lat))
+
 print("{} Longitude ".format(long))
+
 # ======================================
 
 Easy Right ?
