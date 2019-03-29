@@ -26,17 +26,4 @@ These are the the cloud platform that my library can be used for
         9 .  Get Youtube Sub Count                   (Get Yout Sub Count)
         10.  Suports MQTT                            (Unstable Verison ! )
         
- 
- from masterclass import *       # Make sure to Import class to avoid Error !
-temperature = 22
-humidity = 11
-
-# ====== Thingspeak =======
-
-w_key = 'Your Write key goes here '
-r_key = 'your read key goes here '
-channel_id = 83234                              # replace with channel id
-
-ob = Thingspeak(write_api_key=w_key, read_api_key=r_key, channel_id=channel_id)
-ob.post_cloud(value1=temperature,value2=humidity)
-print(ob.read_cloud(result=3))                # change result=number of data you want
+PLEASE SEE THE EXAMPLES FOR MORE INFO 
