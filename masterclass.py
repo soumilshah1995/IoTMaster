@@ -429,5 +429,69 @@ class Spotifypy(object):
         return response.json()
 
 
+class Converter(object):
 
+    def __init__(self):
+        self.__url = "https://www.binaryhexconverter.com/hesapla.php"
+        self.__params = {
+            'fonksiyon': 'dec2hex',
+            'deger': 12,
+            'pad': False,
+            'v': 2
+        }
+    def bin2hex(self,binnum=1):
+
+        self.__params['deger'] = binnum
+        self.__params['fonksiyon'] = 'bin2hex'
+        response = requests.get(self.__url,params=self.__params)
+        return response.text
+
+    def bin2dec(self, binnum=1):
+
+        self.__params['deger'] = binnum
+        self.__params['fonksiyon'] = 'bin2dec'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+    def bin2asc(self,binnum=1):
+
+        self.__params['deger'] = binnum
+        self.__params['fonksiyon'] = 'bin2asc'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+    def hex2bin(self, hexnum ='A'):
+        self.__params['deger'] = hexnum
+        self.__params['fonksiyon'] = 'hex2bin'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+
+    def hex2dec(self,hexnum ='A'):
+
+        self.__params['deger'] = hexnum
+        self.__params['fonksiyon'] = 'hex2dec'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+    def dec2hex(self, decnum='10'):
+
+        self.__params['deger'] = decnum
+        self.__params['fonksiyon'] = 'dec2hex'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+    def dec2bin(self, decnum='10'):
+
+        self.__params['deger'] = decnum
+        self.__params['fonksiyon'] = 'dec2bin'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
+
+    def dec2oct(self, decnum='10'):
+
+        self.__params['deger'] = decnum
+        self.__params['fonksiyon'] = 'dec2oct'
+        response = requests.get(self.__url, params=self.__params)
+        return response.text
 
