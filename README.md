@@ -1,5 +1,24 @@
 # IoTMaster
 
+    1 .  ThingSpeak                              (Read/ Write)
+    2 .  AdafruitIO                              (Read/Write)
+    3 .  IFTTT                                   (upload get notification etc)
+    4 .  Get Latitude and Longitude              (get Lat and Long)
+    5 .  Get Date and Time                       (get Date and Time in Format)
+    6 .  Get Weather Details                     (Supports oopen Weather API )
+    7 .  Supports Text to Speech                 (ONLY for MAC)
+    8 .  Supports Arduino                        (Read and Write)
+    9 .  Get Youtube Sub Count                   (Get Yout Sub Count)
+    10.  Suports MQTT                            (Unstable Verison ! )
+    11 . Supports Text to Mp3 Conversion
+    12. supports Spotify APi
+    13. supports converter                      bin2hex,bin2dec,bin2asc
+                                                hex2bin,hex2dec
+                                                dec2hex,dec2bin,dec2oct
+
+
+
+
 ![BeFunky-collage](https://user-images.githubusercontent.com/39345855/55261551-a53b7580-5241-11e9-8190-e811dc25fcdd.jpg)
 
 
@@ -12,18 +31,6 @@ I have Written a simple yet powerful Library which will help you to send SMS, Up
 
 Motivation to build this Module: - It was back in 2014 when I was not a good programmer I used to always struggle when it came to write code but I was very good at interfacing sensor we realized that in order to upload data on cloud its very tedious you have to write lot of codes and also for different cloud use different API it was time consuming and I was not able to find a single library which has all functionality that was the reason I decided to make one. it is 2019 I am a python developer so decided to contribute to the maker so that they can focus on making project than coding. we do all the hard work for you.
 
-These are the the cloud platform that my library can be used for
 
-
-        1 .  ThingSpeak                              (Read/ Write)
-        2 .  AdafruitIO                              (Read/Write)
-        3 .  IFTTT                                   (upload get notification etc)
-        4 .  Get Latitude and Longitude              (get Lat and Long)
-        5 .  Get Date and Time                       (get Date and Time in Format)
-        6 .  Get Weather Details                     (Supports oopen Weather API )
-        7 .  Supports Text to Speech                 (ONLY for MAC)
-        8 .  Supports Arduino                        (Read and Write)
-        9 .  Get Youtube Sub Count                   (Get Yout Sub Count)
-        10.  Suports MQTT                            (Unstable Verison ! )
         
 PLEASE SEE THE EXAMPLES FOR MORE INFO 
