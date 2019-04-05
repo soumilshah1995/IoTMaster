@@ -1,6 +1,11 @@
 """"
 Author : Soumil shah
 Email : soushah@my.bridgeport.edu
+Version 1.0.1
+
+update: Changes made to class added private var and url and read url
+cannot be  changed !
+
 """
 
 try:                                    # import the important library
@@ -9,20 +14,20 @@ try:                                    # import the important library
     import threading                    # import threadding
     import json                         # import json
     import random                       # import random
-    import requests                     # import requests
+    import requests                     # import requests for web API
     import ssl
-    import geocoder
-    import datetime
-    from twilio.rest import Client
-    import serial
+    import geocoder                     # for Locations
+    import datetime                     # for date time
+    from twilio.rest import Client      # for Sms
+    from serial import Serial           # for arduino
     import numpy as np
-    from Adafruit_IO import Client
+    from Adafruit_IO import Client      # for Adafruit IO
     import os
-    from os import  system
+    from os import system                # For Text to speech
     import paho.mqtt.publish as publish
-    import sqlite3
+    import sqlite3                       # for Database
     import paho.mqtt.publish as publish
-    import urllib
+    import urllib                        # for web Api
 
 except:
     print("No Library Found")
@@ -38,12 +43,18 @@ class Thingspeak(object):                       # define a class called Thingspe
         :param timer: can take integer values
         """
 
-        self.url = 'https://api.thingspeak.com/update?api_key='
-        self.write_key = write_api_key
+        # self.url = 'https://api.thingspeak.com/update?api_key='
+        # self.read_url = 'https://api.thingspeak.com/channels/{}/feeds.json?api_key='.format(channel_id)
 
+        self.write_key = write_api_key
         self.channel_id = channel_id
         self.read_api_key = read_api_key
-        self.read_url = 'https://api.thingspeak.com/channels/{}/feeds.json?api_key='.format(channel_id)
+
+        # Private Var cannot change
+        self.__url = 'http://api.thingspeak.com/update?api_key'
+        self.__read_url = 'https://api.thingspeak.com/channels/{}/feeds.json?api_key='.format(channel_id)
+
+
         self.feild1 = []
         self.feild2 = []
 
@@ -55,12 +66,13 @@ class Thingspeak(object):                       # define a class called Thingspe
             :return: updated to cloud storage
             """
 
-            URL = self.url
+            URL = self.__url
+
             KEY = self.write_key
 
             HEADER = '&field1={}&field2={}'.format(str(value1), str(value2))
 
-            NEW_URL = str(URL) + str(KEY) + str(HEADER)
+            NEW_URL = str(URL) + "=" + str(KEY) + str(HEADER)
             print(NEW_URL)
 
             context = ssl._create_unverified_context()
@@ -77,9 +89,9 @@ class Thingspeak(object):                       # define a class called Thingspe
             :return: Two List which contains Sensor data
             """
 
-            URL_R = self.read_url
+            URL_R = self.__read_url
             read_key = self.read_api_key
-            header_r ='&results={}'.format(result)
+            header_r = '&results={}'.format(result)
 
             new_read_url = URL_R + read_key + header_r
 
@@ -102,8 +114,11 @@ class IfTTT(object):
 
         self.eventname = eventname
         self.Key = key
-        self.Url = 'https://maker.ifttt.com/trigger/{}/with/key/'.format(self.eventname)
-        self.New_Url =self.Url + self.Key
+
+        self.__Url = 'https://maker.ifttt.com/trigger/{}/with/key/'.format(self.eventname)
+
+        self.New_Url = self.__Url + self.Key
+
         print(self.New_Url)
 
     def iftt_post(self, data1=10, data2=11):
@@ -118,7 +133,6 @@ class IfTTT(object):
             Key = self.Key
             payload = {'value1': data1,
                        'value2': data2}
-
 
             requests.post(self.New_Url, data=payload)
             print("Done posted on IFTTT")
@@ -153,7 +167,8 @@ class DateandTime(object):
 
     def __init__(self):
         pass
-    @staticmethod
+
+    @ staticmethod
     def get_time_date():
         try:
             """
@@ -166,10 +181,15 @@ class DateandTime(object):
         except:
             print('could now get date and time ')
 
+    def convert_timestamp(self,timestamp):
+        timestamp = 1554506464
+        dt_object = datetime.fromtimestamp(timestamp)
+        return dt_object
+
 
 class Weather_details(object):
 
-    def __init__(self,key='', city = ''):
+    def __init__(self,key='', city=''):
         self.city = city
         self.key = key
 
@@ -178,6 +198,7 @@ class Weather_details(object):
         try:
             city = self.city
             key = self.key
+
             URL='http://api.openweathermap.org/data/2.5/weather?appid={}&q={}'.format(key,city)
             print(URL)
 
@@ -202,22 +223,18 @@ class Weather_details(object):
 
 class Arduino(object):
 
-    def __init__(self,comport='com3', baudrate='9600'):
-        self.comport=comport
-        self.baudrate=baudrate
+    def __init__(self,comport='/dev/cu.usbmodem14101', baudrate=9600):
+        self.comport = comport
+        self.baudrate = baudrate
 
     def read_data(self):
         try:
             """
-    
             :return: data after reading from serial object
             """
-
-            arduino = serial.Serial(self.comport, self.baudrate,timeout=1)
-            while arduino.inWaiting():
-                data = arduino.readline()         # read line by line data
-                data = data.decode('ascii')
-                return data
+            arduino = Serial(self.comport, self.baudrate,timeout=1)
+            data =  arduino.readline().decode('ascii')
+            return data
         except:
             print("please check your com port and baud rate ")
 
@@ -230,7 +247,8 @@ class Arduino(object):
             to compare and trigger events
             :return: NONE
             """
-            arduinodata = serial.Serial(self.comport, self.baudrate,timeout=1)
+
+            arduinodata = Serial(self.comport, self.baudrate,timeout=1)
             data_send = data.encode('utf-8')
             arduinodata.write(data_send)
         except:
@@ -240,7 +258,8 @@ class Arduino(object):
 class Adafruit_cloud():
 
     def __init__(self, username='', Aio_key=''):
-        self.username=username
+
+        self.username = username
         self.Aio_key = Aio_key
         self.aio = Client(self.username,self.Aio_key)
         self.feed_name = []
@@ -296,7 +315,7 @@ class TextSpeech_Mac(object):
 
 class Mqtt(object):
 
-    def __init__(self,data):
+    def __init__(self, data):
         self.data= data
         self.hostname="test.mosquitto.org"
         self.topic = ''
@@ -321,7 +340,6 @@ class YoutubeSub(object):
         self.google_key = google_key
         self.context = ssl._create_unverified_context()
 
-
     def get_subscriber(self):
 
         """
@@ -336,11 +354,79 @@ class YoutubeSub(object):
         return subs
 
 
+class Text_MP3_converter(object):
+
+    def __init__(self):
+
+        self.__url = 'https://text-to-speech-demo.ng.bluemix.net/api/v1/synthesize?t'
+        self.__header ={
+    'Accept-Encoding': 'gzip, deflate, sdch',
+    'Accept-Language': 'en-US,en;q=0.8',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Referer': 'http://www.wikipedia.org/',
+    'Connection': 'keep-alive'}
+
+        self.__params = {
+            'text': 'hello everyone i am going to teach you python',
+            'voice': 'en-US_AllisonV2Voice',
+            'download': True,
+            'accept': 'audio/mp3'}
+
+    def text_audio(self,name ='test', text='hello world'):
+
+        """
+
+            :param name_file:
+            :param text:
+            :return:  saves MP3 File on your computer
+        """
+        try:
+            response = requests.get(self.__url, headers=self.__header,params=self.__params)
+
+            with open("{}.mp3".format(name),'wb') as f:
+                f.write(response.content)
+                print("File has been downloaded on your computer with name {}".format(name))
+        except:
+            print('Error cannot convert File')
 
 
+class Spotifypy(object):
+
+    def __init__(self,client_id='', client_secret='',oauth_token=''):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.oauth_token = oauth_token
+
+        self.__header = {'Authorization': self.oauth_token,
+                  'Accept':'application/json',
+                  'Content-Type':'application/json'}
 
 
+    def play_song(self):
 
+        self.__url_play = 'https://api.spotify.com/v1/me/player/play'
+        response = requests.put(self.__url_play, headers=self.__header)
+        print(response)
+
+    def pause_song(self):
+        self.__url_pause = 'https://api.spotify.com/v1/me/player/pause'
+        response = requests.put(self.__url_pause, headers=self.__header)
+        print(response)
+
+    def get_recommendation(self):
+
+        self.__url_recommendation = 'https://api.spotify.com/v1/recommendations/available-genre-seeds'
+        response = requests.get(self.__url_recommendation, headers=self.__header)
+        # print(response.json())
+        return response.json()
+
+
+    def get_device(self):
+
+        self.__url_device = 'https://api.spotify.com/v1/me/player/devices'
+        response = requests.get(self.__url_recommendation, headers=self.__header)
+        return response.json()
 
 
 
